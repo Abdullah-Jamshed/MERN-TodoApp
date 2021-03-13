@@ -1,24 +1,7 @@
-const search = (value) => {
+const example = (value) => {
   return (dispatch) => {
-    dispatch({ type: "VALUE", payload: { value } });
-  };
-};
-const videos = (items) => {
-  return (dispatch) => {
-    dispatch({ type: "VIDEOS", payload: { items } });
-  };
-};
-const videoSelect = (video) => {
-  return (dispatch) => {
-    dispatch({ type: "SELECTEDVIDEO", payload: { video } });
+    dispatch({ type: "EXAMPLE", payload: { value } });
   };
 };
 
-
-// const response = (data) => {
-//   return (dispatch) => {
-//     dispatch({ type: "RESPONSE", payload: { data } });
-//   };
-// };
-
-export { search, videos, videoSelect };
+export { example };

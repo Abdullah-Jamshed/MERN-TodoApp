@@ -1,31 +1,12 @@
-const INITIAL_STATE = {
-  value: "",
-  videoList: [],
-  selectedVideo: null,
-};
+const INITIAL_STATE = {};
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case "VALUE":
+    case "EXAMPLE":
       return {
         ...state,
-        value: action.payload.value,
+        example: action.payload.example,
       };
-    case "VIDEOS":
-      return {
-        ...state,
-        videoList: action.payload.items,
-      };
-    case "SELECTEDVIDEO":
-      return {
-        ...state,
-        selectedVideo: action.payload.video,
-      };
-    // case "RESPONSE":
-    //   return {
-    //     ...state,
-    //     response: action.payload.data,
-    //   };
     default:
       return { ...state };
   }
