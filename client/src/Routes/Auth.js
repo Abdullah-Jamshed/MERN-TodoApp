@@ -1,6 +1,9 @@
 import React from "react";
 import { Container, Grid, Box, makeStyles, Typography } from "@material-ui/core";
 
+// Components
+import Form from "../components/Form";
+
 const Auth = () => {
   const classes = useStyles();
   return (
@@ -8,7 +11,7 @@ const Auth = () => {
       <Container disableGutters={true} className={classes.container}>
         <Grid container className={classes.subContainer}>
           <Grid item xs={12} sm={5} md={4} lg={3} className={classes.gridItem1}>
-            <Typography>Form</Typography>
+            <Form />
           </Grid>
 
           <Grid component={Box} className={classes.gridItem2} item sm={7} md={8} lg={9}>
