@@ -10,11 +10,11 @@ const Auth = () => {
     <>
       <Container disableGutters={true} className={classes.container}>
         <Grid container className={classes.subContainer}>
-          <Grid item xs={12} sm={5} md={4} lg={3} className={classes.gridItem1}>
+          <Grid item xs={12} sm={5} md={5} lg={3} className={classes.gridItem1}>
             <Form />
           </Grid>
 
-          <Grid component={Box} className={classes.gridItem2} item sm={7} md={8} lg={9}>
+          <Grid component={Box} className={classes.gridItem2} item sm={7} md={7} lg={9}>
             <Typography className={classes.heading1} variant='h1' color='textSecondary'>
               Todo App
             </Typography>
