@@ -4,22 +4,23 @@ import { useHistory } from "react-router-dom";
 /// MATERIAL UI
 import { Button, Typography, Avatar, makeStyles } from "@material-ui/core";
 
-
 // REDUX
 import { logoutAction } from "../store/actions/AuthActions";
 import { useSelector, useDispatch } from "react-redux";
 
-
 // COMPONENT
 
 const Home = () => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
-  console.log(user);
-  const classes = useStyles();
 
+  // STATES
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+
+  const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
 
+  // FUNCTIONS
+  
   const logout = () => {
     dispatch(logoutAction());
     history.push("/");

@@ -4,14 +4,12 @@ const INITIAL_STATE = {
     email: "",
     password: "",
     confirmPassword: "",
-    showPassword: false,
   },
   signInFormValues: {
     email: "",
     password: "",
-    showPassword: false,
   },
-  auth: null,
+  showPassword: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -33,16 +31,13 @@ export default (state = INITIAL_STATE, action) => {
       };
     case "AUTH":
       localStorage.setItem("profile", JSON.stringify(action.payload.obj));
-      console.log(JSON.stringify(action.payload.obj));
       return {
         ...state,
-        auth: action.payload.obj,
       };
     case "LOGOUT":
       localStorage.removeItem("profile");
       return {
         ...state,
-        user: null,
       };
     default:
       return { ...state };

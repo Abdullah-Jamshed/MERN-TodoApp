@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 /// MATERIAL UI
-import { Container, Grid, Box, makeStyles, Typography } from "@material-ui/core";
+import { Container, Grid, Box, makeStyles, Typography, CircularProgress } from "@material-ui/core";
 
 // REDUX
 import { useSelector } from "react-redux";
@@ -11,14 +11,17 @@ import { useSelector } from "react-redux";
 import Form from "../components/Form";
 
 const Auth = () => {
+  // STATES
   const [loader, setloader] = useState(true);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
 
   const classes = useStyles();
   const history = useHistory();
 
+  // LIFECYCLES
+
   useEffect(() => {
-    if (user) {
+    if (user?.tokenId) {
       history.push("home");
     }
     setloader(false);
@@ -26,7 +29,7 @@ const Auth = () => {
 
   return (
     <>
-      {!loader && (
+      {!loader ? (
         <Container disableGutters={true} className={classes.container}>
           <Grid container className={classes.subContainer}>
             <Grid item xs={12} sm={5} md={5} lg={3} className={classes.gridItem1}>
@@ -38,6 +41,12 @@ const Auth = () => {
                 Todo App
               </Typography>
             </Grid>
+          </Grid>
+        </Container>
+      ) : (
+        <Container className={classes.subContainer}>
+          <Grid container style={{ minHeight: "100vh" }} alignItems='center' justify='center'>
+            <CircularProgress />
           </Grid>
         </Container>
       )}

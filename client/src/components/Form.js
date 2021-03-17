@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-
-
 /// MATERIAL UI
 import { Grid, makeStyles, Paper, Typography, Button, Avatar } from "@material-ui/core";
 import { LockOutlined, Height, Language } from "@material-ui/icons";
@@ -15,18 +13,35 @@ import { useSelector, useDispatch } from "react-redux";
 // COMPONENT
 import Input from "./Input";
 
+// AXIOS
+import authAPI from "../config/api/auth";
+
 const Form = () => {
-  const { showPassword } = useSelector((state) => state.AuthReducer);
+  // STATES
+  const [isSignIn, setIsSignIn] = useState(true);
+
+  // REDUX STATES
+  const { showPassword, signUpFormValues, signInFormValues } = useSelector((state) => state.AuthReducer);
+
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [isSignIn, setIsSignIn] = useState(false);
   const history = useHistory();
+
+  // FUNCTIONS
 
   const switchMode = () => {
     setIsSignIn(!isSignIn);
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isSignIn) {
+      authAPI.post("/auth/signIn", signInFormValues);
+      console.log("Try To Signin");
+    } else {
+      authAPI.post("/auth/signUp", signUpFormValues);
+      console.log("Try To Signup");
+    }
   };
 
   const onGoogleLoginSuccess = async (res) => {
@@ -35,6 +50,7 @@ const Form = () => {
     console.log("Google Login Success");
     history.push("/home");
   };
+
   const onGoogleLoginFailure = () => {
     console.log("Google Login Failed");
   };

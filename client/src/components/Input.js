@@ -21,13 +21,10 @@ const Input = ({ label, name, type, isSignIn }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // console.log(isSignIn);
     if (isSignIn) {
       dispatch(handleSignInField({ ...signInFormValues, [name]: value }));
-      console.log(signInFormValues);
     } else {
       dispatch(handleSignUpField({ ...signUpFormValues, [name]: value }));
-      console.log(signUpFormValues);
     }
   };
 
@@ -41,6 +38,7 @@ const Input = ({ label, name, type, isSignIn }) => {
           label={label}
           name={name}
           type={type}
+          value={isSignIn ? signInFormValues[name] : signUpFormValues[name]}
           InputProps={
             name === "password" || name === "confirmPassword"
               ? {
