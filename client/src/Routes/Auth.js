@@ -1,26 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+
+/// MATERIAL UI
 import { Container, Grid, Box, makeStyles, Typography } from "@material-ui/core";
 
-// Components
+// REDUX
+import { useSelector } from "react-redux";
+
+// COMPONENT
 import Form from "../components/Form";
 
 const Auth = () => {
+  const [loader, setloader] = useState(true);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+
   const classes = useStyles();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (user) {
+      history.push("home");
+    }
+    setloader(false);
+  }, []);
+
   return (
     <>
-      <Container disableGutters={true} className={classes.container}>
-        <Grid container className={classes.subContainer}>
-          <Grid item xs={12} sm={5} md={5} lg={3} className={classes.gridItem1}>
-            <Form />
-          </Grid>
+      {!loader && (
+        <Container disableGutters={true} className={classes.container}>
+          <Grid container className={classes.subContainer}>
+            <Grid item xs={12} sm={5} md={5} lg={3} className={classes.gridItem1}>
+              <Form />
+            </Grid>
 
-          <Grid component={Box} className={classes.gridItem2} item sm={7} md={7} lg={9}>
-            <Typography className={classes.heading1} variant='h1' color='textSecondary'>
-              Todo App
-            </Typography>
+            <Grid component={Box} className={classes.gridItem2} item sm={7} md={7} lg={9}>
+              <Typography className={classes.heading1} variant='h1' color='textSecondary'>
+                Todo App
+              </Typography>
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
+        </Container>
+      )}
     </>
   );
 };

@@ -11,6 +11,7 @@ const INITIAL_STATE = {
     password: "",
     showPassword: false,
   },
+  auth: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -29,6 +30,19 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         signInFormValues: action.payload.fieldValues,
+      };
+    case "AUTH":
+      localStorage.setItem("profile", JSON.stringify(action.payload.obj));
+      console.log(JSON.stringify(action.payload.obj));
+      return {
+        ...state,
+        auth: action.payload.obj,
+      };
+    case "LOGOUT":
+      localStorage.removeItem("profile");
+      return {
+        ...state,
+        user: null,
       };
     default:
       return { ...state };

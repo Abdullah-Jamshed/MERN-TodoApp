@@ -16,6 +16,16 @@ const handleSignInField = (fieldValues) => {
   };
 };
 
+const auth = (obj) => {
+  return (dispatch) => {
+    dispatch({ type: "AUTH", payload: { obj } });
+  };
+};
 
+const logoutAction = () => {
+  return (dispatch) => {
+    dispatch({ type: "LOGOUT" });
+  };
+};
 
-export { showPasswordAction, handleSignUpField, handleSignInField };
+export { showPasswordAction, handleSignUpField, handleSignInField, auth, logoutAction };

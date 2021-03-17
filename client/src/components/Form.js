@@ -1,19 +1,42 @@
 import React, { useState, useEffect } from "react";
-import { Grid, makeStyles, Paper, Typography, Button, Avatar } from "@material-ui/core";
-import { LockOutlined, Height } from "@material-ui/icons";
+import { useHistory } from "react-router-dom";
 
+
+
+/// MATERIAL UI
+import { Grid, makeStyles, Paper, Typography, Button, Avatar } from "@material-ui/core";
+import { LockOutlined, Height, Language } from "@material-ui/icons";
+import GoogleLogin from "react-google-login";
+
+// REDUX
+import { auth } from "../store/actions/AuthActions";
 import { useSelector, useDispatch } from "react-redux";
 
+// COMPONENT
 import Input from "./Input";
 
 const Form = () => {
   const { showPassword } = useSelector((state) => state.AuthReducer);
   const classes = useStyles();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [isSignIn, setIsSignIn] = useState(false);
+  const history = useHistory();
 
   const switchMode = () => {
     setIsSignIn(!isSignIn);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const onGoogleLoginSuccess = async (res) => {
+    const { tokenId, profileObj } = await res;
+    dispatch(auth({ tokenId, profileObj }));
+    console.log("Google Login Success");
+    history.push("/home");
+  };
+  const onGoogleLoginFailure = () => {
+    console.log("Google Login Failed");
   };
 
   return (
@@ -25,12 +48,29 @@ const Form = () => {
         <Typography className={classes.heading} component='h1' variant='h5'>
           {isSignIn ? "Sign In" : "Sign Up"}
         </Typography>
-        <form className={classes.formContainer} noValidate autoComplete='off'>
+        <form onSubmit={handleSubmit} className={classes.formContainer} noValidate autoComplete='off'>
           <Grid container>
             {isSignIn ? (
               <>
                 <Input required isSignIn={isSignIn} fullWidth label='email' name='email' type='email' />
                 <Input required isSignIn={isSignIn} fullWidth label='Password' name='password' type={showPassword ? "text" : "password"} />
+                <GoogleLogin
+                  clientId='325270459770-nt27eeql2bin42l3n6siqbsljun3ql0o.apps.googleusercontent.com'
+                  render={(renderProps) => (
+                    <Button
+                      className={classes.googleButton}
+                      variant={"contained"}
+                      onClick={renderProps.onClick}
+                      disabled={renderProps.disabled}
+                      color='primary'
+                      fullWidth
+                      startIcon={<Language />}>
+                      Google SignIn
+                    </Button>
+                  )}
+                  onSuccess={onGoogleLoginSuccess}
+                  onFailure={onGoogleLoginFailure}
+                />
               </>
             ) : (
               <>

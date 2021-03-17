@@ -1,24 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+// import history from "../config/history";
 
-import { Router, Route, Switch } from "react-router-dom";
+
+/// MATERIAL UI
 import { CssBaseline } from "@material-ui/core";
 
-// import Home from "../Routes/Home";
+// COMPONENT
+import Home from "../Routes/Home";
 import Auth from "../Routes/Auth";
 import NotFound from "../Routes/NotFound";
-import history from "../config/history";
+
 
 const App = () => {
   return (
     <div className='App'>
-      <CssBaseline />
-      <Router history={history}>
-        <Switch>
-          <Route exact path='/' component={Auth} />
-          {/* <Route exact path='/' component={Home} /> */}
-          <Route exact path='*' component={NotFound} />
-        </Switch>
-      </Router>
+      <>
+        <CssBaseline />
+        <BrowserRouter>
+          <Switch>
+            <Route exact path='/' component={Auth} />
+            <Route exact path='/home' component={Home} />
+            <Route exact path='*' component={NotFound} />
+          </Switch>
+        </BrowserRouter>
+      </>
     </div>
   );
 };

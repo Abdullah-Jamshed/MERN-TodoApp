@@ -1,8 +1,14 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
+
+/// MATERIAL UI
 import { Grid, TextField, makeStyles, InputAdornment, IconButton } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
+
+// REDUX
 import { showPasswordAction, handleSignUpField, handleSignInField } from "../store/actions/AuthActions";
 import { useSelector, useDispatch } from "react-redux";
+
+// COMPONENT
 
 const Input = ({ label, name, type, isSignIn }) => {
   const { showPassword, signUpFormValues, signInFormValues } = useSelector((state) => state.AuthReducer);
