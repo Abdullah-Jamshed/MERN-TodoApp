@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 // COMPONENT
 
-const Input = ({ label, name, type, isSignIn }) => {
+const Input = ({ label, name, type, isSignIn, helperText }) => {
   const { showPassword, signUpFormValues, signInFormValues } = useSelector((state) => state.AuthReducer);
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -38,6 +38,7 @@ const Input = ({ label, name, type, isSignIn }) => {
           label={label}
           name={name}
           type={type}
+          helperText={helperText}
           value={isSignIn ? signInFormValues[name] : signUpFormValues[name]}
           InputProps={
             name === "password" || name === "confirmPassword"

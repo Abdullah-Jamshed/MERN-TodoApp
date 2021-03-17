@@ -19,6 +19,7 @@ import authAPI from "../config/api/auth";
 const Form = () => {
   // STATES
   const [isSignIn, setIsSignIn] = useState(true);
+  const [helperText, setHelperText] = useState("");
 
   // REDUX STATES
   const { showPassword, signUpFormValues, signInFormValues } = useSelector((state) => state.AuthReducer);
@@ -30,17 +31,33 @@ const Form = () => {
   // FUNCTIONS
 
   const switchMode = () => {
+    setHelperText("");
     setIsSignIn(!isSignIn);
   };
 
   const handleSubmit = (e) => {
+    setHelperText("");
     e.preventDefault();
     if (isSignIn) {
-      authAPI.post("/auth/signIn", signInFormValues);
-      console.log("Try To Signin");
+      authAPI
+        .post("/auth/signIn", signInFormValues)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          // if (error.response.status == 409) alert(error.response.data.toUpperCase());
+          setHelperText(error.response.data.toUpperCase());
+        });
     } else {
-      authAPI.post("/auth/signUp", signUpFormValues);
-      console.log("Try To Signup");
+      authAPI
+        .post("/auth/signUp", signUpFormValues)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          // if (error.response.status == 409) alert(error.response.data.toUpperCase());
+          setHelperText(error.response.data.toUpperCase());
+        });
     }
   };
 
@@ -68,7 +85,7 @@ const Form = () => {
           <Grid container>
             {isSignIn ? (
               <>
-                <Input required isSignIn={isSignIn} fullWidth label='email' name='email' type='email' />
+                <Input helperText={helperText} required isSignIn={isSignIn} fullWidth label='email' name='email' type='email' />
                 <Input required isSignIn={isSignIn} fullWidth label='Password' name='password' type={showPassword ? "text" : "password"} />
                 <GoogleLogin
                   clientId='325270459770-nt27eeql2bin42l3n6siqbsljun3ql0o.apps.googleusercontent.com'
@@ -91,7 +108,7 @@ const Form = () => {
             ) : (
               <>
                 <Input required isSignIn={isSignIn} fullWidth label='Full Name' name='fullname' type='text' />
-                <Input required isSignIn={isSignIn} fullWidth label='Email Address' name='email' type='email' />
+                <Input helperText={helperText} required isSignIn={isSignIn} fullWidth label='Email Address' name='email' type='email' />
                 <Input required isSignIn={isSignIn} fullWidth label='Password' name='password' type={showPassword ? "text" : "password"} />
                 <Input
                   required
@@ -104,12 +121,43 @@ const Form = () => {
               </>
             )}
           </Grid>
-          <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>
+          <Button
+            disabled={
+              isSignIn
+                ? signInFormValues.email && signInFormValues.password
+                  ? false
+                  : true
+                : signUpFormValues.email &&
+                  signUpFormValues.password == signUpFormValues.confirmPassword &&
+                  signUpFormValues.password &&
+                  signUpFormValues.confirmPassword
+                ? false
+                : true
+            }
+            type='submit'
+            fullWidth
+            variant='contained'
+            color='primary'
+            className={classes.submit}>
             {isSignIn ? "Sign In" : "Sign Up"}
           </Button>
           <Grid container justify='flex-end'>
             <Grid item>
-              <Button className={classes.button2} onClick={switchMode}>
+              <Button
+                // disabled={
+                //   isSignIn
+                //     ? signInFormValues.email && signInFormValues.password
+                //       ? false
+                //       : true
+                //     : signUpFormValues.email &&
+                //       signUpFormValues.password == signUpFormValues.confirmPassword &&
+                //       signUpFormValues.password &&
+                //       signUpFormValues.confirmPassword
+                //     ? false
+                //     : true
+                // }
+                className={classes.button2}
+                onClick={switchMode}>
                 {isSignIn ? "Don't have an account? Sign Up" : "Already have an account? Sign in"}
               </Button>
             </Grid>
