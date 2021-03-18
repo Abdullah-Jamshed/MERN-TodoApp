@@ -7,7 +7,7 @@ const auth = axios.create({
 auth.interceptors.request.use((req) => {
   const token = localStorage.getItem("MERN_TodoApp_Token");
   if (token) {
-    req.headers.Authorization = `Bearer ${token}`;
+    req.headers.authorization = `Bearer ${token}`;
   }
   return req;
 });

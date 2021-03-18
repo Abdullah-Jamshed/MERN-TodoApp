@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 
 /// MATERIAL UI
@@ -18,6 +18,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  // REDUX STATE
   const { user } = useSelector((state) => state.AuthReducer);
 
   // FUNCTIONS
@@ -28,47 +29,30 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <h1>Home</h1>
-
-      {user && (
-        <div className={classes.profile}>
-          <Avatar className={classes.purple} alt={user?.name} src={user?.imageUrl}>
-            {user?.name.charAt(0)}
-          </Avatar>
-          <Typography className={classes.userName} variant='h6'>
-            {user?.name}
-          </Typography>
-          <Button variant='contained' className={classes.logout} color='secondary' onClick={logoutHandler}>
-            Logout
-          </Button>
-        </div>
-      )}
-    </div>
+    <>
+      <div style={{ backgroundColor: "red" }}>
+        <h1>Home</h1>
+        {user && (
+          <div className={classes.profile}>
+            <Avatar className={classes.purple} alt={user?.name} src={user?.imageUrl || user?.picture}>
+              {user?.name.charAt(0)}
+            </Avatar>
+            <Typography className={classes.userName} variant='h6'>
+              {user?.name}
+            </Typography>
+            <Button variant='contained' className={classes.logout} color='secondary' onClick={logoutHandler}>
+              Logout
+            </Button>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
 const useStyles = makeStyles((theme) => ({
-  appBar: {
-    borderRadius: 15,
-    margin: "30px 0",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "10px 50px",
-  },
-  heading: {
-    color: "rgba(0,183,255, 1)",
-    textDecoration: "none",
-  },
   image: {
     marginLeft: "15px",
-  },
-  toolbar: {
-    display: "flex",
-    justifyContent: "flex-end",
-    width: "400px",
   },
   profile: {
     display: "flex",
@@ -76,10 +60,6 @@ const useStyles = makeStyles((theme) => ({
     width: "400px",
   },
   userName: {
-    display: "flex",
-    alignItems: "center",
-  },
-  brandContainer: {
     display: "flex",
     alignItems: "center",
   },

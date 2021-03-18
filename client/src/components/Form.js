@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 /// MATERIAL UI
 import { Grid, makeStyles, Paper, Typography, Button, Avatar } from "@material-ui/core";
-import { LockOutlined, Height, Language } from "@material-ui/icons";
+import { LockOutlined, Language } from "@material-ui/icons";
 import GoogleLogin from "react-google-login";
 
 // REDUX
-// import { auth } from "../store/actions/FormActions";
 import { useSelector, useDispatch } from "react-redux";
-import { loadUser, successLogin, successSignup } from "../store/actions/AuthActions";
+import { successLogin, successSignup } from "../store/actions/AuthActions";
 
 // COMPONENT
 import Input from "./Input";
@@ -27,6 +26,7 @@ const Form = () => {
 
   const classes = useStyles();
   const history = useHistory();
+
   // REDUX DISPATCH ACTION
   const dispatch = useDispatch();
 
@@ -67,13 +67,13 @@ const Form = () => {
 
   const onGoogleLoginSuccess = async (res) => {
     const { tokenId, profileObj } = await res;
-    // dispatch(auth({ tokenId, profileObj }));
-    console.log("Google Login Success");
+    dispatch(successLogin({ token: tokenId, user: profileObj }));
+    // console.log("Google Login Success");
     history.push("/home");
   };
 
   const onGoogleLoginFailure = () => {
-    console.log("Google Login Failed");
+    // console.log("Google Login Failed");
   };
 
   return (
@@ -132,7 +132,7 @@ const Form = () => {
                   ? false
                   : true
                 : signUpFormValues.email &&
-                  signUpFormValues.password == signUpFormValues.confirmPassword &&
+                  signUpFormValues.password === signUpFormValues.confirmPassword &&
                   signUpFormValues.password &&
                   signUpFormValues.confirmPassword
                 ? false

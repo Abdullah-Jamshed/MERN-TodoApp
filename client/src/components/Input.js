@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 /// MATERIAL UI
 import { Grid, TextField, makeStyles, InputAdornment, IconButton } from "@material-ui/core";
@@ -30,7 +30,7 @@ const Input = ({ label, name, type, isSignIn, helperText }) => {
 
   return (
     <>
-      <Grid item item xs={12} className={classes.root}>
+      <Grid item xs={12} className={classes.root}>
         <TextField
           fullWidth
           onChange={handleChange}

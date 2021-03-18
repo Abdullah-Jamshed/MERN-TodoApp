@@ -19,25 +19,33 @@ const App = () => {
   // const history = useHistory();
 
   // REDUX STATE
-  // const { user } = useSelector((state) => state.AuthReducer);
+  const { isAuthenticated, isLoading } = useSelector((state) => state.AuthReducer);
 
   useEffect(() => {
     dispatch(loadUser());
-  }, []);
+  }, [dispatch]);
 
   return (
-    <div className='App'>
-      <>
-        <CssBaseline />
-        <BrowserRouter>
-          <Switch>
-            <Route exact path='/' component={Auth} />
-            <Route exact path='/home' component={Home} />
-            <Route exact path='*' component={NotFound} />
-          </Switch>
-        </BrowserRouter>
-      </>
-    </div>
+    <>
+      <CssBaseline />
+      <div className='App'>
+        {isLoading ? (
+          <div style={{ backgroundColor: "red" }}>
+            <h1>Loading....</h1>
+          </div>
+        ) : (
+          <>
+            <BrowserRouter>
+              <Switch>
+                <Route exact path='/' component={Auth} />
+                {isAuthenticated && <Route exact path='/home' component={Home} />}
+                <Route exact path='*' component={NotFound} />
+              </Switch>
+            </BrowserRouter>
+          </>
+        )}
+      </div>
+    </>
   );
 };
 

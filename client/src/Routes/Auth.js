@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { Container, Grid, Box, makeStyles, Typography, CircularProgress } from "@material-ui/core";
 
 // REDUX
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 // import { loadUser } from "../store/actions/AuthActions";
 
 // COMPONENT
@@ -16,18 +16,17 @@ const Auth = () => {
   const [loader, setloader] = useState(true);
 
   // REDUX STATE
-  const { user, token } = useSelector((state) => state.AuthReducer);
+  const { user } = useSelector((state) => state.AuthReducer);
 
   const classes = useStyles();
   const history = useHistory();
 
   // REDUX DISPATCH ACTION
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   // LIFECYCLES
 
   useEffect(() => {
-    // console.log(token);
     if (user) {
       history.push("/home");
     }
