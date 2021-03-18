@@ -9,6 +9,7 @@ import GoogleLogin from "react-google-login";
 // REDUX
 // import { auth } from "../store/actions/FormActions";
 import { useSelector, useDispatch } from "react-redux";
+import { loadUser, successLogin, successSignup } from "../store/actions/AuthActions";
 
 // COMPONENT
 import Input from "./Input";
@@ -25,8 +26,9 @@ const Form = () => {
   const { showPassword, signUpFormValues, signInFormValues } = useSelector((state) => state.FormReducer);
 
   const classes = useStyles();
-  const dispatch = useDispatch();
   const history = useHistory();
+  // REDUX DISPATCH ACTION
+  const dispatch = useDispatch();
 
   // FUNCTIONS
 
@@ -42,7 +44,8 @@ const Form = () => {
       authAPI
         .post("/auth/signIn", signInFormValues)
         .then((res) => {
-          console.log(res);
+          dispatch(successLogin(res.data));
+          console.log(res.data);
         })
         .catch((error) => {
           // if (error.response.status == 409) alert(error.response.data.toUpperCase());
@@ -52,7 +55,8 @@ const Form = () => {
       authAPI
         .post("/auth/signUp", signUpFormValues)
         .then((res) => {
-          console.log(res);
+          dispatch(successSignup(res.data));
+          console.log(res.data);
         })
         .catch((error) => {
           // if (error.response.status == 409) alert(error.response.data.toUpperCase());

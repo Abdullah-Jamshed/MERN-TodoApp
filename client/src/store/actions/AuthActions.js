@@ -1,12 +1,15 @@
-const isLoading = () => {
-  return (dispatch) => {
-    dispatch({ type: "USER_LOADING" });
-  };
-};
+import auth from "../../config/api/auth";
 
-const userLoaded = (userData) => {
-  return (dispatch) => {
-    dispatch({ type: "USER_LOADED", payload: { userData } });
+const loadUser = () => {
+  return async (dispatch) => {
+    dispatch({ type: "USER_LOADING" });
+
+    try {
+      const { data: userData } = await auth.get("/auth");
+      dispatch({ type: "USER_LOADED", payload: { userData } });
+    } catch (err) {
+      dispatch({ type: "AUTH_ERROR" });
+    }
   };
 };
 
@@ -22,34 +25,10 @@ const successSignup = (data) => {
   };
 };
 
-const failedLogin = () => {
-  return (dispatch) => {
-    dispatch({ type: "LOGIN_FAILED" });
-  };
-};
-
-const failedSignup = () => {
-  return (dispatch) => {
-    dispatch({ type: "SIGNUP_FAILED" });
-  };
-};
-
-const failedSignup = () => {
-  return (dispatch) => {
-    dispatch({ type: "SIGNUP_FAILED" });
-  };
-};
-
 const logout = () => {
   return (dispatch) => {
     dispatch({ type: "LOGOUT_SUCCESS" });
   };
 };
 
-const authError = () => {
-  return (dispatch) => {
-    dispatch({ type: "AUTH_ERROR" });
-  };
-};
-
-export { isLoading, userLoaded, successLogin, successSignup, failedLogin, failedSignup, logout, authError };
+export { loadUser, successLogin, successSignup, logout };
