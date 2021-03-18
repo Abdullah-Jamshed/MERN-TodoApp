@@ -5,13 +5,13 @@ import { Grid, TextField, makeStyles, InputAdornment, IconButton } from "@materi
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 // REDUX
-import { showPasswordAction, handleSignUpField, handleSignInField } from "../store/actions/AuthActions";
+import { showPasswordAction, handleSignUpField, handleSignInField } from "../store/actions/FormActions";
 import { useSelector, useDispatch } from "react-redux";
 
 // COMPONENT
 
 const Input = ({ label, name, type, isSignIn, helperText }) => {
-  const { showPassword, signUpFormValues, signInFormValues } = useSelector((state) => state.AuthReducer);
+  const { showPassword, signUpFormValues, signInFormValues } = useSelector((state) => state.FormReducer);
   const classes = useStyles();
   const dispatch = useDispatch();
 

@@ -2,12 +2,13 @@ const INITIAL_STATE = {};
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case "AUTH":
-      localStorage.setItem("profile", JSON.stringify(action.payload.obj));
+    case "SHOW_PASSWORD":
       return {
         ...state,
+        showPassword: action.payload.showPassword,
       };
+
     default:
-      return { ...state };
+      return state;
   }
 };

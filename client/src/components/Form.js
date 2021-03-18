@@ -7,7 +7,7 @@ import { LockOutlined, Height, Language } from "@material-ui/icons";
 import GoogleLogin from "react-google-login";
 
 // REDUX
-import { auth } from "../store/actions/AuthActions";
+// import { auth } from "../store/actions/FormActions";
 import { useSelector, useDispatch } from "react-redux";
 
 // COMPONENT
@@ -22,7 +22,7 @@ const Form = () => {
   const [helperText, setHelperText] = useState("");
 
   // REDUX STATES
-  const { showPassword, signUpFormValues, signInFormValues } = useSelector((state) => state.AuthReducer);
+  const { showPassword, signUpFormValues, signInFormValues } = useSelector((state) => state.FormReducer);
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -63,7 +63,7 @@ const Form = () => {
 
   const onGoogleLoginSuccess = async (res) => {
     const { tokenId, profileObj } = await res;
-    dispatch(auth({ tokenId, profileObj }));
+    // dispatch(auth({ tokenId, profileObj }));
     console.log("Google Login Success");
     history.push("/home");
   };
