@@ -45,7 +45,6 @@ const Form = () => {
         .post("/auth/signIn", signInFormValues)
         .then((res) => {
           dispatch(successLogin(res.data));
-          console.log(res.data);
         })
         .catch((error) => {
           // if (error.response.status == 409) alert(error.response.data.toUpperCase());
@@ -56,7 +55,6 @@ const Form = () => {
         .post("/auth/signUp", signUpFormValues)
         .then((res) => {
           dispatch(successSignup(res.data));
-          console.log(res.data);
         })
         .catch((error) => {
           // if (error.response.status == 409) alert(error.response.data.toUpperCase());
@@ -68,13 +66,10 @@ const Form = () => {
   const onGoogleLoginSuccess = async (res) => {
     const { tokenId, profileObj } = await res;
     dispatch(successLogin({ token: tokenId, user: profileObj }));
-    // console.log("Google Login Success");
     history.push("/home");
   };
 
-  const onGoogleLoginFailure = () => {
-    // console.log("Google Login Failed");
-  };
+  const onGoogleLoginFailure = () => {};
 
   return (
     <div className={classes.root}>

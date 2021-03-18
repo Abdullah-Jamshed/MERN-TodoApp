@@ -8,26 +8,17 @@ const auth = async (req, res, next) => {
 
   try {
     if (token && isCustomAuth) {
-      const decoded = await jwt.verify(token, JWT_SECRET);
-      req.userId = decoded.id;
+      const decodedData = await jwt.verify(token, JWT_SECRET);
+      req.userId = decodedData.id;
+      next();
     } else {
-      const decoded = jwt.decode(token);
-      req.userId = decoded?.sub;
-      return res.json(decoded);
+      const decodedData = jwt.decode(token);
+      // req.userId = decodedData?.sub;
+      return res.json(decodedData);
     }
-
-    next();
   } catch (error) {
     res.status(400).json({ msg: "Token is not Valid" });
   }
 };
 
 module.exports = auth;
-
-// try {
-//   const decoded = await jwt.verify(token, JWT_SECRET);
-//   req.userId = decoded.id;
-//   next();
-// } catch (error) {
-//   res.status(400).json({ msg: "Token is not Valid" });
-// }

@@ -30,8 +30,8 @@ const Home = () => {
 
   return (
     <>
-      <div style={{ backgroundColor: "red" }}>
-        <h1>Home</h1>
+      <div>
+        <Typography variant='h3'>Home</Typography>
         {user && (
           <div className={classes.profile}>
             <Avatar className={classes.purple} alt={user?.name} src={user?.imageUrl || user?.picture}>
