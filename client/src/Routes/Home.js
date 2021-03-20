@@ -9,6 +9,7 @@ import { logout } from "../store/actions/AuthActions";
 import { useSelector, useDispatch } from "react-redux";
 
 // COMPONENT
+import Navbar from "../components/Navbar";
 
 const Home = () => {
   // STATES
@@ -31,6 +32,7 @@ const Home = () => {
   return (
     <>
       <div>
+        <Navbar />
         <Typography variant='h3'>Home</Typography>
         {user && (
           <div className={classes.profile}>
