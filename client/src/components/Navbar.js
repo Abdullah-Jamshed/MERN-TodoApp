@@ -100,16 +100,17 @@ const Navbar = () => {
               }}
               open={open}
               onClose={handleClose}>
-              <MenuItem onClick={handleClose}>
-                <div className={classes.profile} style={{ padding: "0px 10px 0px 10px" }}>
-                  <Avatar className={classes.purple} alt={user?.name} src={user?.imageUrl || user?.picture}>
-                    {user?.name.charAt(0)}
-                  </Avatar>
-                  <Typography className={classes.userName} variant='h6'>
-                    {user?.name}
-                  </Typography>
-                </div>
-              </MenuItem>
+              {/* <MenuItem className={classes.detailDrop}> */}
+
+              <div className={classes.detailDrop}>
+                <Avatar className={classes.purple} alt={user?.name} src={user?.imageUrl || user?.picture}>
+                  {user?.name.charAt(0)}
+                </Avatar>
+                <Typography className={classes.userName} variant='h6'>
+                  {user?.name}
+                </Typography>
+              </div>
+              {/* </MenuItem> */}
               <MenuItem onClick={logoutHandler}>
                 <ListItemIcon>
                   <ExitToApp fontSize='small' />
@@ -140,6 +141,19 @@ const useStyles = makeStyles((theme) => ({
     },
     display: "flex",
     alignItems: "center",
+  },
+  detailDrop: {
+    // cursor: "default",
+    // "&:active": {
+    //   backgroundColor: "#fff",
+    // },
+    "& > *": {
+      margin: theme.spacing(1.5),
+    },
+    display: "flex",
+    alignItems: "center",
+    padding: "0px 10px 0px 10px",
+    outline: "none",
   },
 }));
 
