@@ -1,6 +1,20 @@
 import React from "react";
-import { makeStyles, AppBar, Toolbar, Typography, Button, IconButton, Avatar, Hidden } from "@material-ui/core";
-import { Menu } from "@material-ui/icons";
+import {
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  makeStyles,
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+  Avatar,
+  Hidden,
+} from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+import ExitToApp from "@material-ui/icons/ExitToApp";
 
 import { useHistory } from "react-router-dom";
 
@@ -13,6 +27,8 @@ import { useSelector, useDispatch } from "react-redux";
 const Navbar = () => {
   // STATES
   // const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const [auth, setAuth] = React.useState(true);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -22,6 +38,20 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.AuthReducer);
 
   // FUNCTIONS
+
+  const open = Boolean(anchorEl);
+
+  const handleChange = (event) => {
+    setAuth(event.target.checked);
+  };
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -34,27 +64,59 @@ const Navbar = () => {
         <AppBar position='static'>
           <Toolbar>
             <Hidden smUp>
-              <IconButton edge='end' className={classes.menuButton} color='inherit' aria-label='menu'>
-                <Menu />
+              <IconButton edge='end' onClick={handleMenu} className={classes.menuButton} color='inherit' aria-label='menu'>
+                <MenuIcon />
               </IconButton>
             </Hidden>
             <Typography variant='h6' className={classes.title}>
               Todo App
             </Typography>
 
-            <Hidden xsDown>
-              <div className={classes.profile}>
-                <Avatar className={classes.purple} alt={user?.name} src={user?.imageUrl || user?.picture}>
-                  {user?.name.charAt(0)}
-                </Avatar>
+            <div className={classes.profile}>
+              <Avatar className={classes.purple} alt={user?.name} src={user?.imageUrl || user?.picture}>
+                {user?.name.charAt(0)}
+              </Avatar>
+              <Hidden xsDown>
                 <Typography className={classes.userName} variant='h6'>
                   {user?.name}
                 </Typography>
                 <Button variant='contained' className={classes.logout} color='secondary' onClick={logoutHandler}>
                   Logout
                 </Button>
-              </div>
-            </Hidden>
+              </Hidden>
+            </div>
+
+            <Menu
+              id='menu-appbar'
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              open={open}
+              onClose={handleClose}>
+              <MenuItem onClick={handleClose}>
+                <div className={classes.profile} style={{ padding: "0px 10px 0px 10px" }}>
+                  <Avatar className={classes.purple} alt={user?.name} src={user?.imageUrl || user?.picture}>
+                    {user?.name.charAt(0)}
+                  </Avatar>
+                  <Typography className={classes.userName} variant='h6'>
+                    {user?.name}
+                  </Typography>
+                </div>
+              </MenuItem>
+              <MenuItem onClick={logoutHandler}>
+                <ListItemIcon>
+                  <ExitToApp fontSize='small' />
+                </ListItemIcon>
+                Logout
+              </MenuItem>
+            </Menu>
           </Toolbar>
         </AppBar>
       )}
@@ -73,11 +135,11 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   profile: {
-    display: "flex",
-    alignItems: "center",
     "& > *": {
       margin: theme.spacing(1.5),
     },
+    display: "flex",
+    alignItems: "center",
   },
 }));
 
