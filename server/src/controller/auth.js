@@ -5,12 +5,36 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET;
 
 const signIn = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, googleId, name } = req.body;
+
+  if (googleId) {
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      const user = new userModel({
+        name,
+        email,
+      });
+      user
+        .save({ validateBeforeSave: false })
+        .then(() => {
+          console.log("user create");
+          res.json({
+            msg: "user added",
+          });
+        })
+        .catch((ERR) => {
+          console.log(ERR);
+          res.status(400).json({
+            msg: "user not created",
+          });
+        });
+      return;
+    }
+    return res.json({ msg: "user exist" });
+  }
 
   const user = await userModel.findOne({ email });
-
   if (!user) return res.status(404).send("user not Found");
-
   bcrypt.compare(password, user.password, async (err, result) => {
     if (result) {
       const token = await jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: 3600 });
@@ -62,7 +86,13 @@ const signUp = async (req, res) => {
   }
 };
 
+const googleLogin = async (req, res) => {
+  // const { name, email, password } = req.body;
+  console.log(req.body);
+};
+
 module.exports = {
   signIn,
   signUp,
+  googleLogin,
 };

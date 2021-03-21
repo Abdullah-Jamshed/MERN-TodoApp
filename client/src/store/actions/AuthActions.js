@@ -1,11 +1,11 @@
-import auth from "../../config/api/auth";
+import Api from "../../config/api/index.js";
 
 const loadUser = () => {
   return async (dispatch) => {
     dispatch({ type: "USER_LOADING" });
 
     try {
-      const { data: userData } = await auth.get("/auth");
+      const { data: userData } = await Api.get("/auth");
       dispatch({ type: "USER_LOADED", payload: { userData } });
     } catch (err) {
       dispatch({ type: "AUTH_ERROR" });

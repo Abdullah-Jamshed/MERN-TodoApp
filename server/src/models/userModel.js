@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
-// Without Validation
-const UserSignUpSchema = mongoose.Schema({
+const Schema = mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
@@ -9,8 +8,9 @@ const UserSignUpSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  todos: { type: Array, default: [] },
 });
 
-const userModel = mongoose.model("users", UserSignUpSchema);
+const userModel = mongoose.model("users", Schema);
 
 module.exports = userModel;

@@ -5,7 +5,7 @@ const UserModel = require("../models/userModel");
 // middleware
 const auth = require("../middleware/auth");
 
-const { signIn, signUp } = require("../controller/auth");
+const { signIn, signUp, googleLogin } = require("../controller/auth");
 
 authRoute.get("/", auth, async (req, res) => {
   const user = await UserModel.findById(req.userId).select("-password");
@@ -15,5 +15,6 @@ authRoute.get("/", auth, async (req, res) => {
 
 authRoute.post("/signIn", signIn);
 authRoute.post("/signUp", signUp);
+// authRoute.post("/googleLogin", googleLogin);
 
 module.exports = authRoute;

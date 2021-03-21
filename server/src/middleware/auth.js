@@ -13,7 +13,6 @@ const auth = async (req, res, next) => {
       next();
     } else {
       const decodedData = jwt.decode(token);
-      // req.userId = decodedData?.sub;
       return res.json(decodedData);
     }
   } catch (error) {

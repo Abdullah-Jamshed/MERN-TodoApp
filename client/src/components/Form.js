@@ -14,7 +14,7 @@ import { successLogin, successSignup } from "../store/actions/AuthActions";
 import Input from "./Input";
 
 // AXIOS
-import authAPI from "../config/api/auth";
+import Api from "../config/api/";
 
 const Form = () => {
   // STATES
@@ -41,8 +41,7 @@ const Form = () => {
     setHelperText("");
     e.preventDefault();
     if (isSignIn) {
-      authAPI
-        .post("/auth/signIn", signInFormValues)
+      Api.post("/auth/signIn", signInFormValues)
         .then((res) => {
           dispatch(successLogin(res.data));
         })
@@ -51,8 +50,7 @@ const Form = () => {
           setHelperText(error.response.data.toUpperCase());
         });
     } else {
-      authAPI
-        .post("/auth/signUp", signUpFormValues)
+      Api.post("/auth/signUp", signUpFormValues)
         .then((res) => {
           dispatch(successSignup(res.data));
         })
@@ -65,8 +63,19 @@ const Form = () => {
 
   const onGoogleLoginSuccess = async (res) => {
     const { tokenId, profileObj } = await res;
-    dispatch(successLogin({ token: tokenId, user: profileObj }));
-    history.push("/home");
+    const data = {
+      name: profileObj.name,
+      email: profileObj.email,
+      googleId: profileObj.googleId,
+    };
+    Api.post("/auth/signIn", data)
+      .then(() => {
+        dispatch(successLogin({ token: tokenId, user: profileObj }));
+        history.push("/home");
+      })
+      .catch((error) => {
+        console.log("some thing went wrong");
+      });
   };
 
   const onGoogleLoginFailure = () => {};
@@ -142,21 +151,7 @@ const Form = () => {
           </Button>
           <Grid container justify='flex-end'>
             <Grid item>
-              <Button
-                // disabled={
-                //   isSignIn
-                //     ? signInFormValues.email && signInFormValues.password
-                //       ? false
-                //       : true
-                //     : signUpFormValues.email &&
-                //       signUpFormValues.password == signUpFormValues.confirmPassword &&
-                //       signUpFormValues.password &&
-                //       signUpFormValues.confirmPassword
-                //     ? false
-                //     : true
-                // }
-                className={classes.button2}
-                onClick={switchMode}>
+              <Button className={classes.button2} onClick={switchMode}>
                 {isSignIn ? "Don't have an account? Sign Up" : "Already have an account? Sign in"}
               </Button>
             </Grid>

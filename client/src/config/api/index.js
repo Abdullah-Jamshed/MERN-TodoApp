@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const auth = axios.create({
+const Api = axios.create({
   baseURL: "http://localhost:5000",
 });
 
-auth.interceptors.request.use((req) => {
+Api.interceptors.request.use((req) => {
   const token = localStorage.getItem("MERN_TodoApp_Token");
   if (token) {
     req.headers.authorization = `Bearer ${token}`;
@@ -12,4 +12,4 @@ auth.interceptors.request.use((req) => {
   return req;
 });
 
-export default auth;
+export default Api;
