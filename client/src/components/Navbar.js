@@ -12,6 +12,7 @@ import {
   IconButton,
   Avatar,
   Hidden,
+  colors
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ExitToApp from "@material-ui/icons/ExitToApp";
@@ -143,10 +144,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   detailDrop: {
-    // cursor: "default",
-    // "&:active": {
-    //   backgroundColor: "#fff",
-    // },
     "& > *": {
       margin: theme.spacing(1.5),
     },
@@ -154,6 +151,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     padding: "0px 10px 0px 10px",
     outline: "none",
+  },
+  purple: {
+    color: theme.palette.getContrastText(colors.deepPurple[500]),
+    backgroundColor: colors.deepPurple[500],
   },
 }));
 

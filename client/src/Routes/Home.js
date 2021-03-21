@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 /// MATERIAL UI
-import { Button, Typography, Avatar, makeStyles, colors, Grid, Paper, Container, Box, CardActions } from "@material-ui/core";
+import {
+  Button,
+  Typography,
+  Avatar,
+  makeStyles,
+  colors,
+  Grid,
+  Paper,
+  Container,
+  Box,
+  CardActions,
+  Card,
+  CardMedia,
+  CardContent,
+  TextField,
+} from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 
 // REDUX
 import { logout } from "../store/actions/AuthActions";
@@ -10,10 +28,15 @@ import { useSelector, useDispatch } from "react-redux";
 
 // COMPONENT
 import Navbar from "../components/Navbar";
+import TodoItemField from "../components/TodoItemField";
+import TodoItem from "../components/TodoItem";
 
 const Home = () => {
   // STATES
-  // const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const [form, setForm] = useState({
+    tile: "",
+    discription: "",
+  });
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -22,9 +45,24 @@ const Home = () => {
   // REDUX STATE
   const { user } = useSelector((state) => state.AuthReducer);
 
-  const items = [];
+  const items = [
+    {
+      title: "Title1",
+      discription: "Discription OF something I dont know",
+    },
+    {
+      title: "Title2",
+      discription: "Discription OF something I dont know",
+    },
+    {
+      title: "Title3",
+      discription: "Discription OF something I dont know",
+    },
+  ];
 
   // FUNCTIONS
+
+
 
   return (
     <>
@@ -35,64 +73,22 @@ const Home = () => {
         </Typography>
 
         <Grid container className={classes.mainContainer}>
-          <Grid item container xs={12} sm={6} md={8} justify='center' className={classes.itemsContainer}>
-            {!items.length ? (
-              <>
-                <Grid item zeroMinWidth>
-                  <Paper className={classes.BoxContainer} elevation={3}>
-                    <Typography variant='h6' noWrap>
-                      Heading Heading Heading
-                    </Typography>
-                    <Typography variant='subtitle2' color={"textSecondary"}>
-                      Discription of todo List item Discription of todo List item Discription
-                    </Typography>
-                  </Paper>
-                </Grid>
-                <Grid item zeroMinWidth>
-                  <Paper className={classes.BoxContainer} elevation={3}>
-                    <Typography variant='h6' noWrap>
-                      Heading Heading Heading
-                    </Typography>
-                    <Typography variant='subtitle2' color={"textSecondary"}>
-                      Discription of todo List item Discription of todo List item Discription
-                    </Typography>
-                  </Paper>
-                </Grid>
-                <Grid item zeroMinWidth>
-                  <Paper className={classes.BoxContainer} elevation={3}>
-                    <Typography variant='h6' noWrap>
-                      Heading Heading Heading
-                    </Typography>
-                    <Typography variant='subtitle2' color={"textSecondary"}>
-                      Discription of todo List item Discription of todo List item Discription
-                    </Typography>
-                  </Paper>
-                </Grid>
-                <Grid item zeroMinWidth>
-                  <Paper className={classes.BoxContainer} elevation={3}>
-                    <Typography variant='h6' noWrap>
-                      Heading Heading Heading
-                    </Typography>
-                    <Typography variant='subtitle2' color={"textSecondary"}>
-                      Discription of todo List item Discription of todo List item Discription
-                    </Typography>
-                    <CardActions>
-                      <Button size='small'>Learn More</Button>
-                    </CardActions>
-                  </Paper>
-                </Grid>
-              </>
-            ) : (
-              <></>
-            )}
-          </Grid>
-          <Grid item container xs={12} sm={6} md={4} className={classes.itemsContainer2}>
-            <Grid item xs={12}>
-              <Paper>
-                <Typography variant='body1'>Form</Typography>
-              </Paper>
+          {items.length ? (
+            <>
+              <Grid item container xs={12} sm={6} md={8} justify='center' className={classes.itemsContainer}>
+                {items.map((item) => (
+                  <TodoItem item={item} />
+                ))}
+              </Grid>
+            </>
+          ) : (
+            <Grid xs={12} sm={6} md={8}>
+              <Typography variant='h6' align='center'>
+                No Items
+              </Typography>
             </Grid>
-          </Grid>
+          )}
+          <TodoItemField />
         </Grid>
       </Container>
     </>
@@ -112,16 +108,12 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
   },
-  purple: {
-    color: theme.palette.getContrastText(colors.deepPurple[500]),
-    backgroundColor: colors.deepPurple[500],
-  },
+
   appHeading: {
     padding: theme.spacing(3),
   },
   mainContainer: {
     "& > *": {},
-    // backgroundColor: "red",
     [theme.breakpoints.down("xs")]: {
       flexDirection: "column-reverse",
     },
@@ -130,21 +122,6 @@ const useStyles = makeStyles((theme) => ({
     "& > *": {
       margin: theme.spacing(1.5),
     },
-    // backgroundColor: "green",
-  },
-  itemsContainer2: {
-    "& > *": {
-      margin: theme.spacing(0.5),
-    },
-  },
-  BoxContainer: {
-    "& > *": {
-      margin: theme.spacing(0.5),
-    },
-    padding: theme.spacing(3),
-    // height: "150px",
-    width: "220px",
-    overflow: "hidden",
   },
 }));
 
