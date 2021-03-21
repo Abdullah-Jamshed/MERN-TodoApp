@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 /// MATERIAL UI
-import { Button, Typography, Avatar, makeStyles, colors } from "@material-ui/core";
+import { Button, Typography, Avatar, makeStyles, colors, Grid, Paper, Container, Box, CardActions } from "@material-ui/core";
 
 // REDUX
 import { logout } from "../store/actions/AuthActions";
@@ -22,32 +22,79 @@ const Home = () => {
   // REDUX STATE
   const { user } = useSelector((state) => state.AuthReducer);
 
-  // FUNCTIONS
+  const items = [];
 
-  const logoutHandler = () => {
-    dispatch(logout());
-    history.push("/");
-  };
+  // FUNCTIONS
 
   return (
     <>
-      <div>
-        <Navbar />
-        <Typography variant='h3'>Home</Typography>
-        {user && (
-          <div className={classes.profile}>
-            <Avatar className={classes.purple} alt={user?.name} src={user?.imageUrl || user?.picture}>
-              {user?.name.charAt(0)}
-            </Avatar>
-            <Typography className={classes.userName} variant='h6'>
-              {user?.name}
-            </Typography>
-            <Button variant='contained' className={classes.logout} color='secondary' onClick={logoutHandler}>
-              Logout
-            </Button>
-          </div>
-        )}
-      </div>
+      <Navbar />
+      <Container>
+        <Typography variant='h3' color='textPrimary' align='center' className={classes.appHeading}>
+          Todo App
+        </Typography>
+
+        <Grid container className={classes.mainContainer}>
+          <Grid item container xs={12} sm={6} md={8} justify='center' className={classes.itemsContainer}>
+            {!items.length ? (
+              <>
+                <Grid item zeroMinWidth>
+                  <Paper className={classes.BoxContainer} elevation={3}>
+                    <Typography variant='h6' noWrap>
+                      Heading Heading Heading
+                    </Typography>
+                    <Typography variant='subtitle2' color={"textSecondary"}>
+                      Discription of todo List item Discription of todo List item Discription
+                    </Typography>
+                  </Paper>
+                </Grid>
+                <Grid item zeroMinWidth>
+                  <Paper className={classes.BoxContainer} elevation={3}>
+                    <Typography variant='h6' noWrap>
+                      Heading Heading Heading
+                    </Typography>
+                    <Typography variant='subtitle2' color={"textSecondary"}>
+                      Discription of todo List item Discription of todo List item Discription
+                    </Typography>
+                  </Paper>
+                </Grid>
+                <Grid item zeroMinWidth>
+                  <Paper className={classes.BoxContainer} elevation={3}>
+                    <Typography variant='h6' noWrap>
+                      Heading Heading Heading
+                    </Typography>
+                    <Typography variant='subtitle2' color={"textSecondary"}>
+                      Discription of todo List item Discription of todo List item Discription
+                    </Typography>
+                  </Paper>
+                </Grid>
+                <Grid item zeroMinWidth>
+                  <Paper className={classes.BoxContainer} elevation={3}>
+                    <Typography variant='h6' noWrap>
+                      Heading Heading Heading
+                    </Typography>
+                    <Typography variant='subtitle2' color={"textSecondary"}>
+                      Discription of todo List item Discription of todo List item Discription
+                    </Typography>
+                    <CardActions>
+                      <Button size='small'>Learn More</Button>
+                    </CardActions>
+                  </Paper>
+                </Grid>
+              </>
+            ) : (
+              <></>
+            )}
+          </Grid>
+          <Grid item container xs={12} sm={6} md={4} className={classes.itemsContainer2}>
+            <Grid item xs={12}>
+              <Paper>
+                <Typography variant='body1'>Form</Typography>
+              </Paper>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Container>
     </>
   );
 };
@@ -68,6 +115,36 @@ const useStyles = makeStyles((theme) => ({
   purple: {
     color: theme.palette.getContrastText(colors.deepPurple[500]),
     backgroundColor: colors.deepPurple[500],
+  },
+  appHeading: {
+    padding: theme.spacing(3),
+  },
+  mainContainer: {
+    "& > *": {},
+    // backgroundColor: "red",
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "column-reverse",
+    },
+  },
+  itemsContainer: {
+    "& > *": {
+      margin: theme.spacing(1.5),
+    },
+    // backgroundColor: "green",
+  },
+  itemsContainer2: {
+    "& > *": {
+      margin: theme.spacing(0.5),
+    },
+  },
+  BoxContainer: {
+    "& > *": {
+      margin: theme.spacing(0.5),
+    },
+    padding: theme.spacing(3),
+    // height: "150px",
+    width: "220px",
+    overflow: "hidden",
   },
 }));
 

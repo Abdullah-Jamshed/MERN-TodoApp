@@ -90,12 +90,12 @@ const Navbar = () => {
               id='menu-appbar'
               anchorEl={anchorEl}
               anchorOrigin={{
-                vertical: "bottom",
+                vertical: "top",
                 horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: "bottom",
+                vertical: "top",
                 horizontal: "left",
               }}
               open={open}
