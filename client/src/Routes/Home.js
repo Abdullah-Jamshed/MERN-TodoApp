@@ -44,7 +44,8 @@ const Home = () => {
 
   // REDUX STATE
   const { user } = useSelector((state) => state.AuthReducer);
-
+  console.log(user)
+  
   const items = [
     {
       title: "Title1",

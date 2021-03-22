@@ -6,6 +6,7 @@ require("dotenv").config({ path: "../.env" });
 
 // ROUTES
 const authRoute = require("./routes/authRoute");
+const itemsRoute = require("./routes/itemsRoute");
 
 const mongoose = require("mongoose");
 
@@ -36,6 +37,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", authRoute);
+app.use("/items", itemsRoute);
 
 const PORT = process.env.PORT || 5000;
 

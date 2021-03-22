@@ -6,20 +6,19 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 const signIn = async (req, res) => {
   const { email, password, googleId, name } = req.body;
-
   if (googleId) {
     const user = await userModel.findOne({ email });
     if (!user) {
       const user = new userModel({
         name,
         email,
+        googleId,
       });
       user
         .save({ validateBeforeSave: false })
         .then(() => {
-          console.log("user create");
           res.json({
-            msg: "user added",
+            id: user.id,
           });
         })
         .catch((ERR) => {
@@ -30,7 +29,9 @@ const signIn = async (req, res) => {
         });
       return;
     }
-    return res.json({ msg: "user exist" });
+    return res.json({
+      id: user.id,
+    });
   }
 
   const user = await userModel.findOne({ email });
@@ -86,13 +87,7 @@ const signUp = async (req, res) => {
   }
 };
 
-const googleLogin = async (req, res) => {
-  // const { name, email, password } = req.body;
-  console.log(req.body);
-};
-
 module.exports = {
   signIn,
   signUp,
-  googleLogin,
 };

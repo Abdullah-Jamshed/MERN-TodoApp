@@ -8,9 +8,10 @@ const Schema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  todos: { type: Array, default: [] },
   googleId: String,
 });
 
-const userModel = mongoose.model("users", Schema);
+const TodoModel = mongoose.model("items", Schema);
 
-module.exports = userModel;
+module.exports = TodoModel;

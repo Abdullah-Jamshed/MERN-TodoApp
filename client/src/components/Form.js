@@ -63,14 +63,15 @@ const Form = () => {
 
   const onGoogleLoginSuccess = async (res) => {
     const { tokenId, profileObj } = await res;
+    console.log(res);
     const data = {
       name: profileObj.name,
       email: profileObj.email,
       googleId: profileObj.googleId,
     };
     Api.post("/auth/signIn", data)
-      .then(() => {
-        dispatch(successLogin({ token: tokenId, user: profileObj }));
+      .then((res) => {
+        dispatch(successLogin({ token: tokenId, user: { ...profileObj, id: res.data.id } }));
         history.push("/home");
       })
       .catch((error) => {

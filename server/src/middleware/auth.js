@@ -13,7 +13,9 @@ const auth = async (req, res, next) => {
       next();
     } else {
       const decodedData = jwt.decode(token);
-      return res.json(decodedData);
+      req.sub = decodedData.sub;
+      next();
+      // return res.json(decodedData)
     }
   } catch (error) {
     res.status(400).json({ msg: "Token is not Valid" });
