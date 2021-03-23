@@ -12,7 +12,7 @@ import {
   IconButton,
   Avatar,
   Hidden,
-  colors
+  colors,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ExitToApp from "@material-ui/icons/ExitToApp";

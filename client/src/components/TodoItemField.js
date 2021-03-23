@@ -6,6 +6,7 @@ import { Button, Typography, makeStyles, Grid, Paper, TextField } from "@materia
 
 // REDUX
 import { useSelector, useDispatch } from "react-redux";
+import { createTodo } from "../store/actions/ItemAction";
 
 // COMPONENT
 import Navbar from "./Navbar";
@@ -13,7 +14,7 @@ import Navbar from "./Navbar";
 const TodoItemField = () => {
   // STATES
   const [form, setForm] = useState({
-    tile: "",
+    title: "",
     discription: "",
   });
 
@@ -29,10 +30,10 @@ const TodoItemField = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
-    console.log(form)
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(createTodo(user.id, form));
   };
 
   return (
@@ -42,9 +43,9 @@ const TodoItemField = () => {
           <Typography variant='h5'>Create Todo</Typography>
           <form onSubmit={handleSubmit} className={classes.fields}>
             <TextField
-              name={"tile"}
+              name={"title"}
               variant={"outlined"}
-              value={form.tile}
+              value={form.title}
               onChange={handleChange}
               fullWidth
               placeholder='Title'

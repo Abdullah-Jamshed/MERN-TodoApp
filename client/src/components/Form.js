@@ -63,7 +63,6 @@ const Form = () => {
 
   const onGoogleLoginSuccess = async (res) => {
     const { tokenId, profileObj } = await res;
-    console.log(res);
     const data = {
       name: profileObj.name,
       email: profileObj.email,
