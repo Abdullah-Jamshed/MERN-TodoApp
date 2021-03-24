@@ -15,6 +15,6 @@ itemsRoute.get("/", (req, res) => {
 
 itemsRoute.get("/todos/:id", getTodos);
 itemsRoute.post("/todos/create", addTodo);
-itemsRoute.delete("/todos/:id", deleteTodo);
+itemsRoute.put("/todos/:id", deleteTodo);
 
 module.exports = itemsRoute;

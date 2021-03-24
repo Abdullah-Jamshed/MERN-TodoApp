@@ -28,11 +28,10 @@ export default (state = INITIAL_STATE, action) => {
         todos: [...state.todos, action.payload.newTodo],
       };
     case "DELETE":
-      const newList = state.todos.filter((item) => item.id !== action.payload.id);
-      console.log(newList);
+      const newList = state.todos.filter((item) => item._id !== action.payload.itemId);
       return {
         ...state,
-        // todos: newList,
+        todos: newList,
       };
 
     default:

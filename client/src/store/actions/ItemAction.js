@@ -15,24 +15,28 @@ const fetchTodos = (id) => {
 };
 const createTodo = (id, data) => {
   return (dispatch) => {
-    // console.log(id, data);
     const config = {
       id,
       data,
     };
-    Api.post(`/items/todos/create`, config).then(() => {
-      dispatch({ type: "CREATE", payload: { newTodo: data } });
+    Api.post(`/items/todos/create`, config).then((res) => {
+      dispatch({ type: "CREATE", payload: { newTodo: res.data } });
     });
   };
 };
 
-const deleteTodo = (id) => {
+const deleteTodo = (id, itemId) => {
   return async (dispatch) => {
-    // dispatch({ type: "" });
-    const { data } = await Api.delete(`/items/todos/${id}`);
-    console.log(data);
-    // dispatch({ type: "DELETE", payload: { todos: data?.todos || [] } });
+    Api.put(`/items/todos/${id}`, {
+      _id: itemId,
+    })
+      .then(() => {
+        dispatch({ type: "DELETE", payload: { itemId } });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };
 
-export { fetchTodos, createTodo };
+export { fetchTodos, createTodo, deleteTodo };

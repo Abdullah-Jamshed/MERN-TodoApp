@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const TodoModel = require("../models/TodoModel");
+// const NewItemSchema = require("../models/NewItem");
 
 const getTodos = async (req, res) => {
   const { id } = req.params;
@@ -15,26 +16,22 @@ const getTodos = async (req, res) => {
 
 const deleteTodo = async (req, res) => {
   const userId = req.params.id;
-  console.log("userId  ===>>>> ", userId);
-  console.log("objId  ===>>>> ", req.body.iddel);
+  const _id = mongoose.Types.ObjectId(req.body._id);
   try {
-    // const daaaa = await TodoModel.findOneAndUpdate({ userId }, { $pull: { todos: { $elemMatch: { $et: { id: req.body.id } } } } });
-    TodoModel.updateOne({ userId }, { $pull: { todos: { $eleMatch: { id: req.body.iddel } } } }, function (err, data) {
-      if (err)
-        res.render("error", {
-          message: "Sorry failed to delete card id in users",
-          error: { status: err, stacks: "failed to delete card id in users" },
-        });
-      res.json(data);
+    const exist = await TodoModel.findOne({ todos: { $elemMatch: { _id } } });
+    if (!exist) return res.status(404).json({ msg: "Item not found" });
+
+    const data = await TodoModel.updateOne({ userId }, { $pull: { todos: { _id } } });
+    return res.json({
+      msg: "item deleted",
     });
-  } catch (err) {
-    console.log(err);
-    res.json(err);
+  } catch (error) {
+    return res.status(400).json("failed");
   }
 };
 
 const addTodo = async (req, res) => {
-  console.log("route work");
+  const _id = mongoose.Types.ObjectId();
   const { id, data } = req.body;
   const exist = await TodoModel.findOne({ userId: id });
   if (!exist) {
@@ -42,7 +39,7 @@ const addTodo = async (req, res) => {
       userId: id,
       todos: [
         {
-          id: mongoose.Types.ObjectId(),
+          _id,
           title: data.title,
           discription: data.discription,
         },
@@ -53,7 +50,9 @@ const addTodo = async (req, res) => {
       .then(() => {
         console.log("create");
         return res.json({
-          msg: "todo added",
+          _id,
+          title: data.title,
+          discription: data.discription,
         });
       })
       .catch((err) => {
@@ -65,10 +64,12 @@ const addTodo = async (req, res) => {
     return;
   }
 
-  TodoModel.updateOne({ userId: id }, { $push: { todos: { ...data, id: mongoose.Types.ObjectId() } } })
+  TodoModel.updateOne({ userId: id }, { $push: { todos: { ...data, _id } } })
     .then(() => {
       res.json({
-        msg: "todo added",
+        _id,
+        title: data.title,
+        discription: data.discription,
       });
     })
     .catch((err) => {
