@@ -24,7 +24,7 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 
 // REDUX
 import { logout } from "../store/actions/AuthActions";
-import { deleteTodo } from "../store/actions/ItemAction";
+import { deleteTodo, selectItemObj } from "../store/actions/ItemAction";
 import { useSelector, useDispatch } from "react-redux";
 
 // COMPONENT
@@ -57,7 +57,7 @@ const TodoItem = ({ item }) => {
           {item.discription}
         </Typography>
         <div align='end'>
-          <Button size='small' onClick={() => dispatch()}>
+          <Button size='small' onClick={() => dispatch(selectItemObj(item))}>
             <EditIcon fontSize='small' />
           </Button>
           <Button size='small' onClick={() => dispatch(deleteTodo(user.id, item._id))}>

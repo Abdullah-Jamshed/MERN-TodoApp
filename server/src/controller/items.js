@@ -16,20 +16,15 @@ const getTodos = async (req, res) => {
 
 const editTodo = async (req, res) => {
   const userId = req.params.id;
-  console.log(userId, req.body.values);
   const _id = mongoose.Types.ObjectId(req.body._id);
-  console.log(_id);
   try {
     const exist = await TodoModel.findOne({ todos: { $elemMatch: { _id } } });
     if (!exist) return res.status(404).json({ msg: "Item not found" });
 
-    const data = await TodoModel.updateOne({ todos: { $elemMatch: { _id } } }, { $set: req.body.values });
-    console.log(data);
-    return res.json({
-      msg: "item update",
-    });
+    await TodoModel.updateOne({ "todos._id": _id }, { $set: { "todos.$": { ...req.body, _id } } });
+
+    return res.json({ ...req.body, _id });
   } catch (error) {
-    console.log(error);
     return res.status(400).json("failed");
   }
 };
@@ -68,7 +63,6 @@ const addTodo = async (req, res) => {
     item
       .save()
       .then(() => {
-        console.log("create");
         return res.json({
           _id,
           title: data.title,
@@ -76,7 +70,6 @@ const addTodo = async (req, res) => {
         });
       })
       .catch((err) => {
-        console.log(err);
         return res.status(400).json({
           msg: "todo not added",
         });

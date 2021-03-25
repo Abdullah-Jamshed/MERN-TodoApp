@@ -5,7 +5,7 @@ const itemsRoute = express.Router();
 // middleware
 // const auth = require("../middleware/auth");
 
-const { getTodos, addTodo, deleteTodo } = require("../controller/items");
+const { getTodos, addTodo, deleteTodo, editTodo } = require("../controller/items");
 
 itemsRoute.get("/", (req, res) => {
   res.json({
@@ -16,5 +16,6 @@ itemsRoute.get("/", (req, res) => {
 itemsRoute.get("/todos/:id", getTodos);
 itemsRoute.post("/todos/create", addTodo);
 itemsRoute.put("/todos/:id", deleteTodo);
+itemsRoute.put("/todos/edit/:id", editTodo);
 
 module.exports = itemsRoute;

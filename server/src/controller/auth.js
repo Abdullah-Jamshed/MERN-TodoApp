@@ -21,8 +21,7 @@ const signIn = async (req, res) => {
             id: user.id,
           });
         })
-        .catch((ERR) => {
-          console.log(ERR);
+        .catch((error) => {
           res.status(400).json({
             msg: "user not created",
           });

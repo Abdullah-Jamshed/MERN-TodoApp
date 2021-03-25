@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
   todos: [],
   isLoading: false,
+  selectedObj: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -10,12 +11,12 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: true,
       };
-
-    case "CLEAR_TODOS":
+    case "SELECT_ID":
       return {
         ...state,
-        todos: [],
+        selectedObj: action.payload.obj,
       };
+
     case "FECTH_TODOS":
       return {
         ...state,
@@ -28,7 +29,16 @@ export default (state = INITIAL_STATE, action) => {
         todos: [...state.todos, action.payload.newTodo],
       };
     case "DELETE":
-      const newList = state.todos.filter((item) => item._id !== action.payload.itemId);
+      var newList = state.todos.filter((item) => item._id !== action.payload.itemId);
+      return {
+        ...state,
+        todos: newList,
+      };
+    case "EDIT":
+      var newList = state.todos.map((item) => {
+        if (item._id == action.payload.editObj._id) return action.payload.editObj;
+        return item;
+      });
       return {
         ...state,
         todos: newList,

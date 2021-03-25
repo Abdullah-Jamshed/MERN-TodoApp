@@ -1,10 +1,10 @@
 import Api from "../../config/api/index";
 
-// const clearTodos = (id) => {
-//   return (dispatch) => {
-//     dispatch({ type: "CLEAR_TODOS" });
-//   };
-// };
+const selectItemObj = (obj) => {
+  return (dispatch) => {
+    dispatch({ type: "SELECT_ID", payload: { obj } });
+  };
+};
 
 const fetchTodos = (id) => {
   return async (dispatch) => {
@@ -25,6 +25,21 @@ const createTodo = (id, data) => {
   };
 };
 
+const updateTodo = (id, obj) => {
+  return async (dispatch) => {
+    Api.put(`/items/todos/edit/${id}`, {
+      _id: obj._id,
+      title: obj.title,
+      discription: obj.discription,
+    })
+      .then((res) => {
+        dispatch({ type: "EDIT", payload: { editObj: res.data } });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
 const deleteTodo = (id, itemId) => {
   return async (dispatch) => {
     Api.put(`/items/todos/${id}`, {
@@ -39,4 +54,4 @@ const deleteTodo = (id, itemId) => {
   };
 };
 
-export { fetchTodos, createTodo, deleteTodo };
+export { fetchTodos, createTodo, deleteTodo, selectItemObj, updateTodo };
